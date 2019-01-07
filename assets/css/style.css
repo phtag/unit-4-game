@@ -1,0 +1,85 @@
+.my-header {
+    font-family: 'Archivo', sans-serif;
+    font-size: 32pt;
+    font-weight: bold;
+    text-align: center;
+    margin: auto;
+    padding: 20px;
+    width: 59%; 
+    height: auto; 
+    color: rgb(253, 240, 53);
+    background-image: url('../images/pexels-photo-313782.jpeg');
+    background-repeat: no-repeat;
+    background-color: rgb(82, 205, 236); 
+    border: 5px solid yellow;
+}
+.my-scoreboard-header {
+font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+font-size: 20pt;
+font-weight: bold;
+color: red;
+margin: auto;
+}
+.my-row {
+margin-top: 30px;
+}
+.my-scoreboard-section {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 14pt;
+font-weight: bold;
+color: darkblue;
+margin: -10px 20px 0px 20px;
+}
+.my-scoreboard-border-row {
+border: 5px solid blue;
+background-color: white;
+padding: 20px; 
+margin-top: 0px;
+}
+.my-border-column-left {
+border-left: 5px solid red;
+border-top: 5px solid red;
+border-bottom: 5px solid red;
+padding: 20px;
+/* background-image: url('../images/nature-q-c-627-480-2.jpg'); */
+background-repeat: no-repeat;
+background-color: rgb(82, 205, 236); 
+}
+.my-border-column-right {
+border-right: 5px solid red;
+border-left: 5px solid red;
+border-top: 5px solid red;
+border-bottom: 5px solid red;
+padding: 20px;
+}
+.my-scoreboard-column {
+background-color: rgb(220, 221, 178); 
+}
+
+#current-word {
+background-color: lightyellow;
+}
+
+#letters-guessed {
+background-color:lightgreen;
+
+}
+#current-city {
+margin-right: 10px;
+margin-left: 10px;
+}
+#my-user-alert-button {
+/* align-self: right; */
+margin: auto;
+}
+#city-picture-hint {
+margin: 20px;
+font-size: 20pt;
+font-weight: bold;
+color: red;
+text-align: center;
+}
+#city-picture-hint-text {
+font-weight: normal;
+color: black;
+}
