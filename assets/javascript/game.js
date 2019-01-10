@@ -14,14 +14,9 @@ var StarWarsGame = {
                     "Darth Vader",
                     "Count Dooku"]
 }
- $(".player-images").on("click", function() {
-    
-    // We then output the number of times the crystal is clicked.
-    alert("You clicked this image");
-    
-});
 
 var avatars = $("#avatars");
+var player = $("#player");
 for (i=0;i<StarWarsGame.playerImages.length;i++) {
     var avatarImage = $('<img class="img-responsive player-images">');
  
@@ -29,10 +24,12 @@ for (i=0;i<StarWarsGame.playerImages.length;i++) {
     avatarImage.attr('src', "assets/images/" + StarWarsGame.playerImages[i]);
     avatarImage.attr('avatar', StarWarsGame.playerNames[i]);
     // letterBtn.text(letters[i]);
-
 }
 $('.player-images').on("click", function(){
-    alert("Got here=" + $(this).attr('avatar'));
+    var playerImage = $('<img class="img-responsive player-images">');
+    player.html("");    // clear existing attributes and content for the div
+    player.append(playerImage);
+    playerImage.attr('src', $(this).attr('src'));
 });
 
     
