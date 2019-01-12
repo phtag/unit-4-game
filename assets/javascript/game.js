@@ -26,7 +26,8 @@ for (i=0;i<StarWarsGame.characterImages.length;i++) {
     HealthPoints[i] = Math.floor(Math.random()*100) + 19;
     var imageContainer = $('<div class="image-container" <span>' + StarWarsGame.characterNames[i] + '</span>');
     var characterImage = $('<img class="img-responsive character-images">');
-    var endDiv = $('<div <span style="color:blue;font-size:20px;top:-10px" id="' + StarWarsGame.characterNames[i] + '">' + HealthPoints[i] + '</span>');
+    // var endDiv = $('<div <span style="color:blue;font-size:20px;top:-10px" id="' + StarWarsGame.characterNames[i] + '">' + HealthPoints[i] + '</span>');
+    var endDiv = $('<div <span style="color:blue;font-size:20px;top:-10px">' + HealthPoints[i] + '</span>');
     imageContainer.append(characterImage);
     imageContainer.append(endDiv);
     characters.append(imageContainer);
@@ -36,8 +37,9 @@ for (i=0;i<StarWarsGame.characterImages.length;i++) {
     // letterBtn.text(letters[i]);
 }
 $('.character-images').on("click", function(){
+    alert("Value=" + $(this).attr('character'));
     var startingScore  = Math.floor(Math.random()*5);
-    var imageContainer = $('<div class="image-container" <span style="color:blue;font-size:10px;top:-10px">12345</span>'); 
+    var imageContainer = $('<div class="image-container" <span></span>');
     var characterImage = $('<img class="img-responsive character-images">');
     imageContainer.append(characterImage);
 
