@@ -1,9 +1,10 @@
 .container {
-    /* position: relative; */
-    text-align: center;
+    border: 1px solid purple;
+    /* text-align: center; */
     font-family: 'Archivo', sans-serif;
     font-size: 20px;
     font-weight: bold;
+    margin-left: 10px;
 }
 .my-header {
     font-family: 'Archivo', sans-serif;
@@ -11,20 +12,20 @@
     font-weight: bold;
     text-align: center;
     padding: 20px;
-    width: 80%; 
+    width: 100%; 
     height: auto; 
     color: rgb(253, 240, 53);
     background-color: rgb(82, 205, 236); 
     border: 5px solid yellow;
 }
 .character-images {
-    height: 100px;
+    height: 120px;
     border: 2px solid black;
 }
 
 .my-characters-row {
     margin-top: 20px;
-    /* border: 1px solid purple; */
+    border: 1px solid purple;
 }
 .my-enemies-row {
     margin-top: 20px;
@@ -43,7 +44,9 @@
     text-align: left;
     font-size: 20px;
     font-weight: bold;
-    /* border: 1px solid purple; */
+    margin-top: 20px;
+    
+    border: 1px solid purple;
 }
 .image-container {
     /* padding: 20px 0px 20px 0px; */
@@ -52,8 +55,8 @@
     text-align: center;
     margin-left: 5px;
     margin-right: 5px;
-    height: 150px;
-    width:120px;
+    height: 200px;
+    width: 160px;
 }
 .my-enemies-row-heading {
     /* border: 2px solid green; */
