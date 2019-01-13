@@ -63,6 +63,7 @@ $('.character-images').on("click", function(){
   
     updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIndex);
 });
+// QUESTION: Why does this event handler NOT get triggered???
 $('.character-images-enemies').on("click", function(){
     alert("Hello-2");
 });
@@ -79,11 +80,11 @@ $(document).on('click', '.character-images-enemies', function(event){
     imageContainer.append(endDiv);
     defender.html("");    // clear existing attributes and content for the div
     defender.append(imageContainer);
-    defender.append('Defender');
+    defender.append('zing zada zoom');
     characterImage.attr('src', $(this).attr('src'));
+    characterImage.attr('index', characterIndex);
     // refresh display for enemies to attack
     updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIndex);
- 
 });
 //  Function that updates the enemies to attack DIV section on the page
 function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIndex) {
