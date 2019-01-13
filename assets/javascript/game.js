@@ -24,24 +24,30 @@ var HealthPoints = [];
 myEnemiesRowHeading.html("");
 for (i=0;i<StarWarsGame.characterImages.length;i++) {
     HealthPoints[i] = Math.floor(Math.random()*100) + 19;
-    var imageContainer = $('<div class="image-container" <span>' + StarWarsGame.characterNames[i] + '</span>');
+    var imageContainer = $('<div class="image-container" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
     var characterImage = $('<img class="img-responsive character-images">');
-    // var endDiv = $('<div <span style="color:blue;font-size:20px;top:-10px" id="' + StarWarsGame.characterNames[i] + '">' + HealthPoints[i] + '</span>');
-    var endDiv = $('<div <span style="color:blue;font-size:20px;top:-10px">' + HealthPoints[i] + '</span>');
+    var endDiv = $('<div <span id="health-points">' + HealthPoints[i] + '</span>');
     imageContainer.append(characterImage);
     imageContainer.append(endDiv);
     characters.append(imageContainer);
     // characters.append(characterImage);
     characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
     characterImage.attr('character', StarWarsGame.characterNames[i]);
+    characterImage.attr('index', i);
+
     // letterBtn.text(letters[i]);
 }
 $('.character-images').on("click", function(){
-    alert("Value=" + $(this).attr('character'));
-    var startingScore  = Math.floor(Math.random()*5);
-    var imageContainer = $('<div class="image-container" <span></span>');
-    var characterImage = $('<img class="img-responsive character-images">');
+    var characterIndex = Number($(this).attr('index'));
+    var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
+    // var characterImage = $('<img class="img-responsive character-images">');
+    var characterImage = $('<img class="img-responsive character-images-enemies">');
+    var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
+ 
     imageContainer.append(characterImage);
+    imageContainer.append(endDiv);
+    // Try
+    enemiesToAttack.append(imageContainer);
 
     selectedCharacter.html("");    // clear existing attributes and content for the div
     selectedCharacter.append(imageContainer);
@@ -53,16 +59,27 @@ $('.character-images').on("click", function(){
     //  move the enemies to attack into position
     enemiesToAttack.html("");
     myEnemiesRowHeading.html("Enemies available to attack");
+  
     for (i=0;i<StarWarsGame.characterImages.length;i++) {
         if ($(this).attr('src') != "assets/images/" + StarWarsGame.characterImages[i]) {
-            var imageContainer = $('<div class="image-container">');
-            var characterImage = $('<img class="img-responsive character-images">');
+            imageContainer = $('<div class="image-container-enemies" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
+            characterImage = $('<img class="img-responsive character-images-enemies">');
+            var endDiv2 = $('<div <span id="health-points">' + HealthPoints[i] + '</span>');
             imageContainer.append(characterImage);
+            imageContainer.append(endDiv2);
+            // imageContainer.addEventListener("keyup", myEnemiesClickEvent);
             enemiesToAttack.append(imageContainer);
-                characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
-                characterImage.attr('character', StarWarsGame.characterNames[i]);    
+            characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
+            characterImage.attr('character', StarWarsGame.characterNames[i]);    
         }
     }
+});
+$('.character-images-enemies').on("click", function(){
+    alert("Hello-2");
+});
+
+$(document).on('click', '.character-images-enemies', function(event){
+    alert($(this).attr('character'));
 });
 
     
