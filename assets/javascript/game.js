@@ -12,7 +12,9 @@ var StarWarsGame = {
                     "Obi Wan Kenobi",
                     "Darth Sidious",
                     "Darth Vader",
-                    "Count Dooku"]
+                    "Count Dooku"],
+    characterAttackPower: [6, 8, 4, 7, 10, 2],
+    characterCounterAttackPower: [10, 2, 6, 12, 5]
 }
 
 var characters = $("#characters");
@@ -45,14 +47,14 @@ $('.character-images').on("click", function(){
     var characterIndex = Number($(this).attr('index'));
     selectedCharacterIndex = characterIndex;
     var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
-    var characterImage = $('<img class="img-responsive character-images-enemies">');
+    var characterImage = $('<img class="img-responsive character-images">');
     var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
  
     imageContainer.append(characterImage);
     imageContainer.append(endDiv);
     selectedCharacter.html("");    // clear existing attributes and content for the div
     selectedCharacter.append(imageContainer);
-    selectedCharacter.append('Your character');
+    // selectedCharacter.append('Your character');
     characterImage.attr('src', $(this).attr('src'));
 
     characters.html("");
@@ -72,19 +74,19 @@ $(document).on('click', '.character-images-enemies', function(event){
     // Refresh display for selected defender
     var characterIndex = Number($(this).attr('index'));
     selectedDefenderIndex = characterIndex;
-    var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
-    var characterImage = $('<img class="img-responsive character-images-enemies">');
-    var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
- 
-    imageContainer.append(characterImage);
-    imageContainer.append(endDiv);
-    defender.html("");    // clear existing attributes and content for the div
-    defender.append(imageContainer);
-    defender.append('zing zada zoom');
-    characterImage.attr('src', $(this).attr('src'));
-    characterImage.attr('index', characterIndex);
-    // refresh display for enemies to attack
+    updateDefenderDisplay(characterIndex);
     updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIndex);
+});
+$("#attack-btn").on('click', function(){
+    if (selectedDefenderIndex != -1) {
+        var counterAttackPower = StarWarsGame.characterCounterAttackPower[selectedDefenderIndex];
+        var attackPower = StarWarsGame.characterAttackPower[selectedCharacterIndex];
+        alert("Attacking with power=" + StarWarsGame.characterAttackPower[selectedCharacterIndex]);
+        alert("Counter attacked with power=" + StarWarsGame.characterCounterAttackPower[selectedCharacterIndex]);
+        HealthPoints[selectedCharacterIndex] -= counterAttackPower;
+        HealthPoints[selectedDefenderIndex] -= attackPower;
+        updateDefenderDisplay(selectedDefenderIndex);
+    }
 });
 //  Function that updates the enemies to attack DIV section on the page
 function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIndex) {
@@ -105,6 +107,20 @@ function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIn
             characterImage.attr('index', i);    
         }
     }
+}
+function updateDefenderDisplay(characterIndex) {
+    var imageContainer = $('<div class="image-container-defender " <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
+    var characterImage = $('<img class="img-responsive character-images-defender">');
+    var endDiv = $('<div <span id="health-points-defender">' + HealthPoints[characterIndex] + '</span>');
+ 
+    imageContainer.append(characterImage);
+    imageContainer.append(endDiv);
+    defender.html("");    // clear existing attributes and content for the div
+    defender.append(imageContainer);
+    defender.append('Defender');
+    characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[characterIndex]);
+    characterImage.attr('character', StarWarsGame.characterNames[characterIndex]);
+    characterImage.attr('index', characterIndex);
 }
 
     
