@@ -1,12 +1,17 @@
-
+body { 
+    background: url("../images/Battle-in-Star-Wars-Wallpaper-HD.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
 .container {
-    border: 1px solid blue;
-    /* text-align: center; */
     font-family: 'Archivo', sans-serif;
     font-size: 20px;
     font-weight: bold;
     margin: auto; 
-}
+    color: white;
+ }
 .my-header {
     font-family: 'Archivo', sans-serif;
     font-size: 32pt;
@@ -15,9 +20,9 @@
     padding: 10px;
     width: 100%; 
     height: auto; 
-    color: rgb(253, 240, 53);
-    background-color: rgb(82, 205, 236); 
-    border: 5px solid yellow;
+    color: rgb(116, 2, 78);
+    background-color: rgb(151, 206, 238); 
+    border: 5px solid rgba(255, 208, 0, 0.883);
 }
 .character-images {
     height: 100px;
@@ -35,7 +40,6 @@
 
 .my-characters-row {
     margin-top: 20px;
-    border: 1px solid purple;
 }
 .my-selected-character-row {
     width: 170px;
@@ -47,14 +51,12 @@
     margin-bottom: -15px;
 }
 .my-enemies-row-heading {
-    /* border: 2px solid green; */
     display: inline-block;
     width: 50%;
     text-align: left;
     font-size: 20px;
     font-weight: bold;
     margin-left: -15px;
-    /* margin-bottom: -20px; */
     margin-top: 10px;
 }
 .my-enemies-row {
@@ -62,8 +64,7 @@
     align-items: left;
     align-content: left;
     width: 100%;
-    /* border: 1px solid red; */
-}
+ }
 .my-characters-row-heading {
     display: inline-block;
     width: 100%;
@@ -71,11 +72,8 @@
     font-size: 20px;
     font-weight: bold;
     margin-top: 20px;
-    
-    border: 1px solid purple;
 }
 .image-container {
-    /* padding: 20px 0px 20px 0px; */
     padding: 0px 0px 20px 0px;
     border: 2px solid black;
     text-align: center;
@@ -84,9 +82,9 @@
     height: 150px;
     width: 120px;
     font-size: 12px;
+    background-color: white;
 }
 .image-container-your-character {
-    /* padding: 20px 0px 20px 0px; */
     padding: 0px 0px 20px 0px;
     border: 2px solid green;
     text-align: center;
@@ -95,6 +93,7 @@
     height: 150px;
     width: 120px;
     font-size: 12px;
+    background-color: white;
 }
 .image-container-enemies {
     /* padding: 20px 0px 20px 0px; */
@@ -109,7 +108,6 @@
     background-color: red;
 }
 .image-container-defender {
-    /* padding: 20px 0px 20px 0px; */
     padding: 0px 0px 20px 0px;
     border: 2px solid black;
     text-align: center;
@@ -120,7 +118,6 @@
     font-size: 12px;
     background-color: black;
 }
-
 .image-label {
     padding-top: -50px;
     font-size: 10px;
@@ -148,7 +145,12 @@
 }
 
 #character-names-label {
-    color:green;
+    color:black;
+    font-size: 14px;
+    top:-10px;  
+}
+#character-names-defender-label {
+    color:white;
     font-size: 14px;
     top:-10px;  
 }

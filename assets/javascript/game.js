@@ -47,23 +47,11 @@ $('.character-images').on("click", function(){
     var characterIndex = Number($(this).attr('index'));
     selectedCharacterIndex = characterIndex;
     updateAttackerDisplay(characterIndex);
-    // var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
-    // var characterImage = $('<img class="img-responsive character-images">');
-    // var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
- 
-    // imageContainer.append(characterImage);
-    // imageContainer.append(endDiv);
-    // selectedCharacter.html("");    // clear existing attributes and content for the div
-    // selectedCharacter.append(imageContainer);
-    // // selectedCharacter.append('Your character');
-    // characterImage.attr('src', $(this).attr('src'));
-
     characters.html("");
     charactersRowHeading.html("");
     //  move the enemies to attack into position
     enemiesToAttack.html("");
     myEnemiesRowHeading.html("Enemies available to attack");
-  
     updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIndex);
 });
 // QUESTION: Why does this event handler NOT get triggered???
@@ -111,7 +99,7 @@ function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIn
     }
 }
 function updateDefenderDisplay(characterIndex) {
-    var imageContainer = $('<div class="image-container-defender " <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
+    var imageContainer = $('<div class="image-container-defender " <span id="character-names-defender-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
     var characterImage = $('<img class="img-responsive character-images-defender">');
     var endDiv = $('<div <span id="health-points-defender">' + HealthPoints[characterIndex] + '</span>');
  
