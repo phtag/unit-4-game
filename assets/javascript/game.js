@@ -46,16 +46,17 @@ for (i=0;i<StarWarsGame.characterImages.length;i++) {
 $('.character-images').on("click", function(){
     var characterIndex = Number($(this).attr('index'));
     selectedCharacterIndex = characterIndex;
-    var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
-    var characterImage = $('<img class="img-responsive character-images">');
-    var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
+    updateAttackerDisplay(characterIndex);
+    // var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
+    // var characterImage = $('<img class="img-responsive character-images">');
+    // var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
  
-    imageContainer.append(characterImage);
-    imageContainer.append(endDiv);
-    selectedCharacter.html("");    // clear existing attributes and content for the div
-    selectedCharacter.append(imageContainer);
-    // selectedCharacter.append('Your character');
-    characterImage.attr('src', $(this).attr('src'));
+    // imageContainer.append(characterImage);
+    // imageContainer.append(endDiv);
+    // selectedCharacter.html("");    // clear existing attributes and content for the div
+    // selectedCharacter.append(imageContainer);
+    // // selectedCharacter.append('Your character');
+    // characterImage.attr('src', $(this).attr('src'));
 
     characters.html("");
     charactersRowHeading.html("");
@@ -81,11 +82,12 @@ $("#attack-btn").on('click', function(){
     if (selectedDefenderIndex != -1) {
         var counterAttackPower = StarWarsGame.characterCounterAttackPower[selectedDefenderIndex];
         var attackPower = StarWarsGame.characterAttackPower[selectedCharacterIndex];
-        alert("Attacking with power=" + StarWarsGame.characterAttackPower[selectedCharacterIndex]);
-        alert("Counter attacked with power=" + StarWarsGame.characterCounterAttackPower[selectedCharacterIndex]);
+        console.log("Attacking with power=" + StarWarsGame.characterAttackPower[selectedCharacterIndex]);
+        console.log("Counter attacked with power=" + StarWarsGame.characterCounterAttackPower[selectedCharacterIndex]);
         HealthPoints[selectedCharacterIndex] -= counterAttackPower;
         HealthPoints[selectedDefenderIndex] -= attackPower;
         updateDefenderDisplay(selectedDefenderIndex);
+        updateAttackerDisplay(selectedCharacterIndex);
     }
 });
 //  Function that updates the enemies to attack DIV section on the page
@@ -118,6 +120,20 @@ function updateDefenderDisplay(characterIndex) {
     defender.html("");    // clear existing attributes and content for the div
     defender.append(imageContainer);
     defender.append('Defender');
+    characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[characterIndex]);
+    characterImage.attr('character', StarWarsGame.characterNames[characterIndex]);
+    characterImage.attr('index', characterIndex);
+}
+function updateAttackerDisplay(characterIndex) {
+    var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
+    var characterImage = $('<img class="img-responsive character-images">');
+    var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
+ 
+    imageContainer.append(characterImage);
+    imageContainer.append(endDiv);
+    selectedCharacter.html("");    // clear existing attributes and content for the div
+    selectedCharacter.append(imageContainer);
+    // selectedCharacter.append('Your character');
     characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[characterIndex]);
     characterImage.attr('character', StarWarsGame.characterNames[characterIndex]);
     characterImage.attr('index', characterIndex);
