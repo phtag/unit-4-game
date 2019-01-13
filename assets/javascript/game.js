@@ -13,8 +13,12 @@ var StarWarsGame = {
                     "Darth Sidious",
                     "Darth Vader",
                     "Count Dooku"],
-    characterAttackPower: [6, 8, 4, 7, 10, 2],
-    characterCounterAttackPower: [10, 2, 6, 12, 5]
+    characterBaseAttackPower: [6, 8, 4, 7, 10, 2],
+    characterAttackPower: [0, 0, 0, 0, 0, 0],
+    characterCounterAttackPower: [10, 2, 6, 12, 5],
+    healthPoints: [0, 0, 0, 0, 0, 0],
+    selectedCharacterIndex: -1,
+    selectedDefenderIndex: -1 
 }
 
 var characters = $("#characters");
@@ -23,16 +27,13 @@ var selectedCharacter = $("#selected-character");
 var enemiesToAttack = $("#enemies-to-attack");
 var defender = $(".defender");
 var myEnemiesRowHeading = $(".my-enemies-row-heading");
-var HealthPoints = [];
-var selectedCharacterIndex = -1;
-var selectedDefenderIndex = -1;
-
+resetGame();
 myEnemiesRowHeading.html("");
 for (i=0;i<StarWarsGame.characterImages.length;i++) {
-    HealthPoints[i] = Math.floor(Math.random()*100) + 19;
+    StarWarsGame.healthPoints[i] = Math.floor(Math.random()*100) + 19;
     var imageContainer = $('<div class="image-container" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
     var characterImage = $('<img class="img-responsive character-images">');
-    var endDiv = $('<div <span id="health-points">' + HealthPoints[i] + '</span>');
+    var endDiv = $('<div <span id="health-points">' + StarWarsGame.healthPoints[i] + '</span>');
     imageContainer.append(characterImage);
     imageContainer.append(endDiv);
     characters.append(imageContainer);
@@ -45,14 +46,14 @@ for (i=0;i<StarWarsGame.characterImages.length;i++) {
 }
 $('.character-images').on("click", function(){
     var characterIndex = Number($(this).attr('index'));
-    selectedCharacterIndex = characterIndex;
+    StarWarsGame.selectedCharacterIndex = characterIndex;
     updateAttackerDisplay(characterIndex);
     characters.html("");
     charactersRowHeading.html("");
     //  move the enemies to attack into position
     enemiesToAttack.html("");
     myEnemiesRowHeading.html("Enemies available to attack");
-    updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIndex);
+    updateEnemiesToAttackDisplay(StarWarsGame.selectedCharacterIndex, StarWarsGame.selectedDefenderIndex);
 });
 // QUESTION: Why does this event handler NOT get triggered???
 $('.character-images-enemies').on("click", function(){
@@ -62,20 +63,23 @@ $('.character-images-enemies').on("click", function(){
 $(document).on('click', '.character-images-enemies', function(event){
     // Refresh display for selected defender
     var characterIndex = Number($(this).attr('index'));
-    selectedDefenderIndex = characterIndex;
+    StarWarsGame.selectedDefenderIndex = characterIndex;
     updateDefenderDisplay(characterIndex);
-    updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIndex);
+    updateEnemiesToAttackDisplay(StarWarsGame.selectedCharacterIndex, StarWarsGame.selectedDefenderIndex);
 });
 $("#attack-btn").on('click', function(){
-    if (selectedDefenderIndex != -1) {
-        var counterAttackPower = StarWarsGame.characterCounterAttackPower[selectedDefenderIndex];
-        var attackPower = StarWarsGame.characterAttackPower[selectedCharacterIndex];
-        console.log("Attacking with power=" + StarWarsGame.characterAttackPower[selectedCharacterIndex]);
-        console.log("Counter attacked with power=" + StarWarsGame.characterCounterAttackPower[selectedCharacterIndex]);
-        HealthPoints[selectedCharacterIndex] -= counterAttackPower;
-        HealthPoints[selectedDefenderIndex] -= attackPower;
-        updateDefenderDisplay(selectedDefenderIndex);
-        updateAttackerDisplay(selectedCharacterIndex);
+    if (StarWarsGame.selectedDefenderIndex != -1) {
+        StarWarsGame.characterAttackPower[StarWarsGame.selectedCharacterIndex] += StarWarsGame.characterBaseAttackPower[StarWarsGame.selectedCharacterIndex];
+        var counterAttackPower = StarWarsGame.characterCounterAttackPower[StarWarsGame.selectedDefenderIndex];
+        var attackPower = StarWarsGame.characterAttackPower[StarWarsGame.selectedCharacterIndex];
+        console.log("Attacking with power=" + StarWarsGame.characterAttackPower[StarWarsGame.selectedCharacterIndex]);
+        console.log("Counter attacked with power=" + StarWarsGame.characterCounterAttackPower[StarWarsGame.selectedCharacterIndex]);
+        StarWarsGame.healthPoints[StarWarsGame.selectedCharacterIndex] -= counterAttackPower;
+        StarWarsGame.healthPoints[StarWarsGame.selectedDefenderIndex] -= attackPower;
+        updateDefenderDisplay(StarWarsGame.selectedDefenderIndex);
+        updateAttackerDisplay(StarWarsGame.selectedCharacterIndex);
+    } else {
+        $(".defender").html("You have not selected a defender yet");
     }
 });
 //  Function that updates the enemies to attack DIV section on the page
@@ -88,7 +92,7 @@ function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIn
         if ((i != selectedCharacterIndex) && (i != selectedDefenderIndex)) {
             imageContainer = $('<div class="image-container-enemies" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
             characterImage = $('<img class="img-responsive character-images-enemies">');
-            endDiv = $('<div <span id="health-points">' + HealthPoints[i] + '</span>');
+            endDiv = $('<div <span id="health-points">' + StarWarsGame.healthPoints[i] + '</span>');
             imageContainer.append(characterImage);
             imageContainer.append(endDiv);
             enemiesToAttack.append(imageContainer);
@@ -101,7 +105,7 @@ function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIn
 function updateDefenderDisplay(characterIndex) {
     var imageContainer = $('<div class="image-container-defender " <span id="character-names-defender-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
     var characterImage = $('<img class="img-responsive character-images-defender">');
-    var endDiv = $('<div <span id="health-points-defender">' + HealthPoints[characterIndex] + '</span>');
+    var endDiv = $('<div <span id="health-points-defender">' + StarWarsGame.healthPoints[characterIndex] + '</span>');
  
     imageContainer.append(characterImage);
     imageContainer.append(endDiv);
@@ -115,7 +119,7 @@ function updateDefenderDisplay(characterIndex) {
 function updateAttackerDisplay(characterIndex) {
     var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
     var characterImage = $('<img class="img-responsive character-images">');
-    var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
+    var endDiv = $('<div <span id="health-points">' + StarWarsGame.healthPoints[characterIndex] + '</span>');
  
     imageContainer.append(characterImage);
     imageContainer.append(endDiv);
@@ -125,6 +129,13 @@ function updateAttackerDisplay(characterIndex) {
     characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[characterIndex]);
     characterImage.attr('character', StarWarsGame.characterNames[characterIndex]);
     characterImage.attr('index', characterIndex);
+}
+
+function resetGame() {
+    StarWarsGame.healthPoints = [0, 0, 0, 0, 0, 0];
+    StarWarsGame.characterAttackPower = [0, 0, 0, 0, 0, 0];
+    StarWarsGame.selectedCharacterIndex = -1;
+    StarWarsGame.selectedDefenderIndex = -1;
 }
 
     
