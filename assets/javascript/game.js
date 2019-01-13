@@ -19,6 +19,7 @@ var characters = $("#characters");
 var charactersRowHeading = $(".my-characters-row-heading");
 var selectedCharacter = $("#selected-character");
 var enemiesToAttack = $("#enemies-to-attack");
+var defender = $(".defender");
 var myEnemiesRowHeading = $(".my-enemies-row-heading");
 var HealthPoints = [];
 myEnemiesRowHeading.html("");
@@ -40,15 +41,11 @@ for (i=0;i<StarWarsGame.characterImages.length;i++) {
 $('.character-images').on("click", function(){
     var characterIndex = Number($(this).attr('index'));
     var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
-    // var characterImage = $('<img class="img-responsive character-images">');
     var characterImage = $('<img class="img-responsive character-images-enemies">');
     var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
  
     imageContainer.append(characterImage);
     imageContainer.append(endDiv);
-    // Try
-    enemiesToAttack.append(imageContainer);
-
     selectedCharacter.html("");    // clear existing attributes and content for the div
     selectedCharacter.append(imageContainer);
     selectedCharacter.append('Your character');
@@ -71,6 +68,7 @@ $('.character-images').on("click", function(){
             enemiesToAttack.append(imageContainer);
             characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
             characterImage.attr('character', StarWarsGame.characterNames[i]);    
+            characterImage.attr('index', i);    
         }
     }
 });
@@ -80,6 +78,18 @@ $('.character-images-enemies').on("click", function(){
 
 $(document).on('click', '.character-images-enemies', function(event){
     alert($(this).attr('character'));
+    // Setup selected defender
+    var characterIndex = Number($(this).attr('index'));
+    var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
+    var characterImage = $('<img class="img-responsive character-images-enemies">');
+    var endDiv = $('<div <span id="health-points">' + HealthPoints[characterIndex] + '</span>');
+ 
+    imageContainer.append(characterImage);
+    imageContainer.append(endDiv);
+    defender.html("");    // clear existing attributes and content for the div
+    defender.append(imageContainer);
+    defender.append('Defender');
+    characterImage.attr('src', $(this).attr('src'));
 });
 
     
