@@ -17,6 +17,7 @@ var StarWarsGame = {
     characterAttackPower: [0, 0, 0, 0, 0, 0],
     characterCounterAttackPower: [10, 2, 6, 12, 5],
     healthPoints: [0, 0, 0, 0, 0, 0],
+    characterInGame: [true, true, true, true, true, true],
     selectedCharacterIndex: -1,
     selectedDefenderIndex: -1 
 }
@@ -28,23 +29,24 @@ var enemiesToAttack = $("#enemies-to-attack");
 var defender = $(".defender");
 var myEnemiesRowHeading = $(".my-enemies-row-heading");
 resetGame();
-myEnemiesRowHeading.html("");
-for (i=0;i<StarWarsGame.characterImages.length;i++) {
-    StarWarsGame.healthPoints[i] = Math.floor(Math.random()*100) + 19;
-    var imageContainer = $('<div class="image-container" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
-    var characterImage = $('<img class="img-responsive character-images">');
-    var endDiv = $('<div <span id="health-points">' + StarWarsGame.healthPoints[i] + '</span>');
-    imageContainer.append(characterImage);
-    imageContainer.append(endDiv);
-    characters.append(imageContainer);
-    // characters.append(characterImage);
-    characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
-    characterImage.attr('character', StarWarsGame.characterNames[i]);
-    characterImage.attr('index', i);
+// myEnemiesRowHeading.html("");
+// for (i=0;i<StarWarsGame.characterImages.length;i++) {
+//     StarWarsGame.healthPoints[i] = Math.floor(Math.random()*100) + 19;
+//     var imageContainer = $('<div class="image-container" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
+//     var characterImage = $('<img class="img-responsive character-images">');
+//     var endDiv = $('<div <span id="health-points">' + StarWarsGame.healthPoints[i] + '</span>');
+//     imageContainer.append(characterImage);
+//     imageContainer.append(endDiv);
+//     characters.append(imageContainer);
+//     // characters.append(characterImage);
+//     characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
+//     characterImage.attr('character', StarWarsGame.characterNames[i]);
+//     characterImage.attr('index', i);
 
-    // letterBtn.text(letters[i]);
-}
-$('.character-images').on("click", function(){
+//     // letterBtn.text(letters[i]);
+// }
+// $('.character-images').on("click", function(){
+$(document).on("click", '.character-images', function() {
     var characterIndex = Number($(this).attr('index'));
     StarWarsGame.selectedCharacterIndex = characterIndex;
     updateAttackerDisplay(characterIndex);
@@ -78,9 +80,16 @@ $("#attack-btn").on('click', function(){
         StarWarsGame.healthPoints[StarWarsGame.selectedDefenderIndex] -= attackPower;
         updateDefenderDisplay(StarWarsGame.selectedDefenderIndex);
         updateAttackerDisplay(StarWarsGame.selectedCharacterIndex);
+        if (StarWarsGame.healthPoints[StarWarsGame.selectedCharacterIndex] <= 0) {
+            $(".defender").html("You have no health points remaining and have lost this game");
+            $("#restart-btn").show();
+        }
     } else {
         $(".defender").html("You have not selected a defender yet");
     }
+});
+$("#restart-btn").on('click', function(){
+    resetGame();
 });
 //  Function that updates the enemies to attack DIV section on the page
 function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIndex) {
@@ -88,8 +97,9 @@ function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIn
     var characterImage;
     var endDiv;
     enemiesToAttack.html("");
+    var remainingEnemies=0;
     for (var i=0;i<StarWarsGame.characterImages.length;i++) {
-        if ((i != selectedCharacterIndex) && (i != selectedDefenderIndex)) {
+        if ((i != selectedCharacterIndex) && (i != selectedDefenderIndex) && StarWarsGame.characterInGame[i]) {
             imageContainer = $('<div class="image-container-enemies" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
             characterImage = $('<img class="img-responsive character-images-enemies">');
             endDiv = $('<div <span id="health-points">' + StarWarsGame.healthPoints[i] + '</span>');
@@ -98,8 +108,12 @@ function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIn
             enemiesToAttack.append(imageContainer);
             characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
             characterImage.attr('character', StarWarsGame.characterNames[i]);    
-            characterImage.attr('index', i);    
+            characterImage.attr('index', i);  
+            remainingEnemies++;  
         }
+    }
+    if (remainingEnemies===0) {
+        alert("Congratulations! You have WON the game!!!!")
     }
 }
 function updateDefenderDisplay(characterIndex) {
@@ -110,11 +124,20 @@ function updateDefenderDisplay(characterIndex) {
     imageContainer.append(characterImage);
     imageContainer.append(endDiv);
     defender.html("");    // clear existing attributes and content for the div
-    defender.append(imageContainer);
-    defender.append('Defender');
-    characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[characterIndex]);
-    characterImage.attr('character', StarWarsGame.characterNames[characterIndex]);
-    characterImage.attr('index', characterIndex);
+    if (StarWarsGame.healthPoints[characterIndex] <= 0) {
+        alert("Player removed");
+        // Defender has been defeated. Remove from game
+        StarWarsGame.characterInGame[characterIndex]=false;
+        updateEnemiesToAttackDisplay(StarWarsGame.selectedCharacterIndex, -1);
+    }
+    else {
+        defender.append(imageContainer);
+        defender.append('Defender');
+        characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[characterIndex]);
+        characterImage.attr('character', StarWarsGame.characterNames[characterIndex]);
+        characterImage.attr('index', characterIndex);
+    }
+
 }
 function updateAttackerDisplay(characterIndex) {
     var imageContainer = $('<div class="image-container-your-character" <span id="character-names-label">' + StarWarsGame.characterNames[characterIndex] + '</span>');
@@ -136,6 +159,24 @@ function resetGame() {
     StarWarsGame.characterAttackPower = [0, 0, 0, 0, 0, 0];
     StarWarsGame.selectedCharacterIndex = -1;
     StarWarsGame.selectedDefenderIndex = -1;
+    $("#restart-btn").hide();
+    myEnemiesRowHeading.html("");
+    selectedCharacter.html("");
+    enemiesToAttack.html("");
+    defender.html("");
+    for (i=0;i<StarWarsGame.characterImages.length;i++) {
+        StarWarsGame.healthPoints[i] = Math.floor(Math.random()*100) + 19;
+        var imageContainer = $('<div class="image-container" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
+        var characterImage = $('<img class="img-responsive character-images">');
+        var endDiv = $('<div <span id="health-points">' + StarWarsGame.healthPoints[i] + '</span>');
+        imageContainer.append(characterImage);
+        imageContainer.append(endDiv);
+        characters.append(imageContainer);
+        // characters.append(characterImage);
+        characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
+        characterImage.attr('character', StarWarsGame.characterNames[i]);
+        characterImage.attr('index', i);
+    }
 }
 
     
