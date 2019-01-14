@@ -13,9 +13,9 @@ var StarWarsGame = {
                     "Darth Sidious",
                     "Darth Vader",
                     "Count Dooku"],
-    characterBaseAttackPower: [6, 8, 4, 7, 10, 2],
+    characterBaseAttackPower: [8, 12, 7, 7, 10, 15],
     characterAttackPower: [0, 0, 0, 0, 0, 0],
-    characterCounterAttackPower: [10, 8, 15, 12, 9, 20],
+    characterCounterAttackPower: [10, 8, 15, 12, 9, 10],
     healthPoints: [0, 0, 0, 0, 0, 0],
     characterInGame: [true, true, true, true, true, true],
     selectedCharacterIndex: -1,
@@ -146,9 +146,12 @@ function updateAttackerDisplay(characterIndex) {
 function resetGame() {
     StarWarsGame.healthPoints = [0, 0, 0, 0, 0, 0];
     StarWarsGame.characterAttackPower = [0, 0, 0, 0, 0, 0];
+    StarWarsGame.characterInGame = [true, true, true, true, true, true];
     StarWarsGame.selectedCharacterIndex = -1;
     StarWarsGame.selectedDefenderIndex = -1;
     $("#restart-btn").hide();
+    charactersRowHeading.html("Select one of the above characters to start playing");
+    mySelectedCharacterRowHeading.html("");
     myEnemiesRowHeading.html("");
     selectedCharacter.html("");
     enemiesToAttack.html("");
