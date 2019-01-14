@@ -9,7 +9,9 @@ body {
     font-family: 'Archivo', sans-serif;
     font-size: 20px;
     font-weight: bold;
-    margin: auto; 
+    /* margin: auto;  */
+    margin-left: 15px;
+    margin-top: -15px;
     color: white;
  }
 .my-header {
@@ -17,7 +19,7 @@ body {
     font-size: 32pt;
     font-weight: bold;
     text-align: center;
-    padding: 10px;
+    padding: 5px;
     width: 100%; 
     height: auto; 
     color: rgb(116, 2, 78);
@@ -47,6 +49,7 @@ body {
     margin-left: -30px;
 }
 .my-selected-character-row-heading {
+    margin-top: -15px;
     margin-left: -15px;
     margin-bottom: -15px;
 }
@@ -126,6 +129,11 @@ body {
 .fight-section {
     margin-top: 20px;
     margin-left: -15px;
+}
+.fight-status {
+    font-size: 12px;
+    color: white;
+    margin-top: 5px;
 }
 .defender {
     margin-top: 20px;

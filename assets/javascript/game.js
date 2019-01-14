@@ -15,7 +15,7 @@ var StarWarsGame = {
                     "Count Dooku"],
     characterBaseAttackPower: [6, 8, 4, 7, 10, 2],
     characterAttackPower: [0, 0, 0, 0, 0, 0],
-    characterCounterAttackPower: [10, 2, 6, 12, 5],
+    characterCounterAttackPower: [10, 8, 15, 12, 9, 20],
     healthPoints: [0, 0, 0, 0, 0, 0],
     characterInGame: [true, true, true, true, true, true],
     selectedCharacterIndex: -1,
@@ -27,7 +27,9 @@ var charactersRowHeading = $(".my-characters-row-heading");
 var selectedCharacter = $("#selected-character");
 var enemiesToAttack = $("#enemies-to-attack");
 var defender = $(".defender");
+var fightStatus = $(".fight-status");
 var myEnemiesRowHeading = $(".my-enemies-row-heading");
+var mySelectedCharacterRowHeading = $(".my-selected-character-row-heading");
 resetGame();
 // myEnemiesRowHeading.html("");
 // for (i=0;i<StarWarsGame.characterImages.length;i++) {
@@ -52,6 +54,7 @@ $(document).on("click", '.character-images', function() {
     updateAttackerDisplay(characterIndex);
     characters.html("");
     charactersRowHeading.html("");
+    mySelectedCharacterRowHeading.html("<p>Your character</p>");
     //  move the enemies to attack into position
     enemiesToAttack.html("");
     myEnemiesRowHeading.html("Enemies available to attack");
@@ -66,6 +69,7 @@ $(document).on('click', '.character-images-enemies', function(event){
     // Refresh display for selected defender
     var characterIndex = Number($(this).attr('index'));
     StarWarsGame.selectedDefenderIndex = characterIndex;
+    fightStatus.html("");
     updateDefenderDisplay(characterIndex);
     updateEnemiesToAttackDisplay(StarWarsGame.selectedCharacterIndex, StarWarsGame.selectedDefenderIndex);
 });
@@ -78,9 +82,11 @@ $("#attack-btn").on('click', function(){
         console.log("Counter attacked with power=" + StarWarsGame.characterCounterAttackPower[StarWarsGame.selectedCharacterIndex]);
         StarWarsGame.healthPoints[StarWarsGame.selectedCharacterIndex] -= counterAttackPower;
         StarWarsGame.healthPoints[StarWarsGame.selectedDefenderIndex] -= attackPower;
+        fightStatus.html("<p>You attacked " + StarWarsGame.characterNames[StarWarsGame.selectedDefenderIndex] + " for " + attackPower + " damage; " + StarWarsGame.characterNames[StarWarsGame.selectedDefenderIndex] + " counter-attacked for " + counterAttackPower + " damage</p>");
         updateDefenderDisplay(StarWarsGame.selectedDefenderIndex);
         updateAttackerDisplay(StarWarsGame.selectedCharacterIndex);
         if (StarWarsGame.healthPoints[StarWarsGame.selectedCharacterIndex] <= 0) {
+            fightStatus.html("");
             $(".defender").html("You have no health points remaining and have lost this game");
             $("#restart-btn").show();
         }
@@ -120,19 +126,20 @@ function updateDefenderDisplay(characterIndex) {
     imageContainer.append(endDiv);
     defender.html("");    // clear existing attributes and content for the div
     if (StarWarsGame.healthPoints[characterIndex] <= 0) {
-        alert("Player removed");
         // Defender has been defeated. Remove from game
         StarWarsGame.characterInGame[characterIndex]=false;
         if (numRemainingPlayers() === 0) {
             $(".defender").html("Congratulations! You have WON the game!!!");
             $("#restart-btn").show();
         } else {
+            fightStatus.html("You have defeated " + StarWarsGame.characterNames[characterIndex] + ". Chose another enemy");
             updateEnemiesToAttackDisplay(StarWarsGame.selectedCharacterIndex, -1);
         }
     }
     else {
-        defender.append(imageContainer);
         defender.append('Defender');
+        defender.append(imageContainer);
+        // defender.append('Defender');
         characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[characterIndex]);
         characterImage.attr('character', StarWarsGame.characterNames[characterIndex]);
         characterImage.attr('index', characterIndex);
@@ -148,7 +155,6 @@ function updateAttackerDisplay(characterIndex) {
     imageContainer.append(endDiv);
     selectedCharacter.html("");    // clear existing attributes and content for the div
     selectedCharacter.append(imageContainer);
-    // selectedCharacter.append('Your character');
     characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[characterIndex]);
     characterImage.attr('character', StarWarsGame.characterNames[characterIndex]);
     characterImage.attr('index', characterIndex);
