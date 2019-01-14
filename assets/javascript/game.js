@@ -31,23 +31,6 @@ var fightStatus = $(".fight-status");
 var myEnemiesRowHeading = $(".my-enemies-row-heading");
 var mySelectedCharacterRowHeading = $(".my-selected-character-row-heading");
 resetGame();
-// myEnemiesRowHeading.html("");
-// for (i=0;i<StarWarsGame.characterImages.length;i++) {
-//     StarWarsGame.healthPoints[i] = Math.floor(Math.random()*100) + 19;
-//     var imageContainer = $('<div class="image-container" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
-//     var characterImage = $('<img class="img-responsive character-images">');
-//     var endDiv = $('<div <span id="health-points">' + StarWarsGame.healthPoints[i] + '</span>');
-//     imageContainer.append(characterImage);
-//     imageContainer.append(endDiv);
-//     characters.append(imageContainer);
-//     // characters.append(characterImage);
-//     characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
-//     characterImage.attr('character', StarWarsGame.characterNames[i]);
-//     characterImage.attr('index', i);
-
-//     // letterBtn.text(letters[i]);
-// }
-// $('.character-images').on("click", function(){
 $(document).on("click", '.character-images', function() {
     var characterIndex = Number($(this).attr('index'));
     StarWarsGame.selectedCharacterIndex = characterIndex;
