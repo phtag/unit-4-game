@@ -113,6 +113,7 @@ function updateDefenderDisplay(characterIndex) {
         StarWarsGame.characterInGame[characterIndex]=false;
         if (numRemainingPlayers() === 0) {
             $(".defender").html("Congratulations! You have WON the game!!!");
+            fightStatus.html("");
             $("#restart-btn").show();
         } else {
             fightStatus.html("You have defeated " + StarWarsGame.characterNames[characterIndex] + ". Chose another enemy");
@@ -155,6 +156,7 @@ function resetGame() {
     myEnemiesRowHeading.html("");
     selectedCharacter.html("");
     enemiesToAttack.html("");
+    fightStatus.html("");
     defender.html("");
     for (i=0;i<StarWarsGame.characterImages.length;i++) {
         StarWarsGame.healthPoints[i] = Math.floor(Math.random()*100) + 19;
