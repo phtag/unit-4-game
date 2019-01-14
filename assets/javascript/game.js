@@ -97,7 +97,6 @@ function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIn
     var characterImage;
     var endDiv;
     enemiesToAttack.html("");
-    var remainingEnemies=0;
     for (var i=0;i<StarWarsGame.characterImages.length;i++) {
         if ((i != selectedCharacterIndex) && (i != selectedDefenderIndex) && StarWarsGame.characterInGame[i]) {
             imageContainer = $('<div class="image-container-enemies" <span id="character-names-label">' + StarWarsGame.characterNames[i] + '</span>');
@@ -109,11 +108,7 @@ function updateEnemiesToAttackDisplay(selectedCharacterIndex, selectedDefenderIn
             characterImage.attr('src', "assets/images/" + StarWarsGame.characterImages[i]);
             characterImage.attr('character', StarWarsGame.characterNames[i]);    
             characterImage.attr('index', i);  
-            remainingEnemies++;  
         }
-    }
-    if (remainingEnemies===0) {
-        alert("Congratulations! You have WON the game!!!!")
     }
 }
 function updateDefenderDisplay(characterIndex) {
@@ -128,7 +123,12 @@ function updateDefenderDisplay(characterIndex) {
         alert("Player removed");
         // Defender has been defeated. Remove from game
         StarWarsGame.characterInGame[characterIndex]=false;
-        updateEnemiesToAttackDisplay(StarWarsGame.selectedCharacterIndex, -1);
+        if (numRemainingPlayers() === 0) {
+            $(".defender").html("Congratulations! You have WON the game!!!");
+            $("#restart-btn").show();
+        } else {
+            updateEnemiesToAttackDisplay(StarWarsGame.selectedCharacterIndex, -1);
+        }
     }
     else {
         defender.append(imageContainer);
@@ -177,6 +177,17 @@ function resetGame() {
         characterImage.attr('character', StarWarsGame.characterNames[i]);
         characterImage.attr('index', i);
     }
+}
+function numRemainingPlayers() {
+    var remainingPlayers = 0;
+    for (var i=0;i<StarWarsGame.characterInGame.length;i++) {
+        if (i != StarWarsGame.selectedCharacterIndex) {
+            if (StarWarsGame.characterInGame[i]) {
+                remainingPlayers++;
+            }
+        }
+    }
+    return remainingPlayers;
 }
 
     
